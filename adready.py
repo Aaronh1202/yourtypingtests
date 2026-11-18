@@ -106,8 +106,38 @@ def legal_pages(site, domain, what, about_extra=""):
     }
 
 
+NETWORK = [("yourstopwatch.com", "Online Stopwatch &amp; Timers"), ("yourspinwheel.com", "Spin the Wheel"),
+           ("yourimagetools.com", "Image Tools"), ("yourcalculatorapp.com", "Calculators"),
+           ("yourfreeonlinegames.com", "Free Online Games"), ("yourdevicetest.com", "Device Tests"),
+           ("yourqrcodegenerator.com", "QR Code Generator"), ("yourtypingtests.com", "Typing Test")]
+# Only link to sites that are live, so we never show broken links. Add domains here as they go live.
+LIVE = {"yourstopwatch.com", "yourspinwheel.com", "yourimagetools.com"}
+
+
+def _social(h, site, domain, slug):
+    """Add Open Graph / Twitter tags and the share image if missing."""
+    title = re.search(r"<title>(.*?)</title>", h, re.S)
+    desc = re.search(r'<meta name="description" content="([^"]*)"', h)
+    t = title.group(1).strip() if title else site
+    d = desc.group(1) if desc else ""
+    url = f"{domain}/" + ("" if slug == "index" else slug)
+    tags = []
+    if 'property="og:title"' not in h: tags.append(f'<meta property="og:title" content="{t}">')
+    if 'property="og:description"' not in h and d: tags.append(f'<meta property="og:description" content="{d}">')
+    if 'property="og:type"' not in h: tags.append('<meta property="og:type" content="website">')
+    if 'property="og:url"' not in h: tags.append(f'<meta property="og:url" content="{url}">')
+    if 'property="og:site_name"' not in h: tags.append(f'<meta property="og:site_name" content="{site}">')
+    if 'property="og:image"' not in h:
+        tags += [f'<meta property="og:image" content="{domain}/og.png">', '<meta property="og:image:width" content="1200">',
+                 '<meta property="og:image:height" content="630">', f'<meta property="og:image:alt" content="{site}">']
+    if 'name="twitter:card"' not in h:
+        tags += ['<meta name="twitter:card" content="summary_large_image">', f'<meta name="twitter:title" content="{t}">',
+                 f'<meta name="twitter:image" content="{domain}/og.png">'] + ([f'<meta name="twitter:description" content="{d}">'] if d else [])
+    return h.replace("</head>", "".join(tags) + "</head>", 1) if tags else h
+
+
 LEGAL_CSS = ('<style>.legal-links{text-align:center;padding:14px 0 4px;font-size:.9em;opacity:.85}'
-             '.legal-links a{margin:0 8px}.legal h3{margin-top:1.2em;font-size:1.05em}</style>')
+             '.legal-links a{margin:0 8px}.net-links{text-align:center;font-size:.8em;opacity:.7;padding:2px 12px 14px;line-height:1.9}.net-links a{margin:0 6px;white-space:nowrap}.legal h3{margin-top:1.2em;font-size:1.05em}</style>')
 
 
 def run(out, site, domain, what, extra=None, default_extra="", about_extra="", skip=()):
@@ -129,6 +159,11 @@ def run(out, site, domain, what, extra=None, default_extra="", about_extra="", s
         f.write_text(_shell(template, slug, title, desc, body, domain))
     links = ('<div class="wrap legal-links"><a href="about">About</a>·<a href="contact">Contact</a>'
              '·<a href="terms">Terms</a>·<a href="privacy">Privacy</a></div>')
+    net = '<div class="wrap net-links">More free tools: ' + " · ".join(
+        f'<a href="https://{d}/">{n}</a>' for d, n in NETWORK if d not in domain and d in LIVE) + "</div>"
+    import shutil, pathlib
+    if pathlib.Path("og.png").exists():
+        shutil.copy("og.png", out / "og.png")
     added = 0
     for f in sorted(out.glob("*.html")):
         slug = f.stem
@@ -143,7 +178,11 @@ def run(out, site, domain, what, extra=None, default_extra="", about_extra="", s
                 added += 1
         if "legal-links" not in h:
             h = h.replace("</footer>", links + "</footer>", 1)
-            h = h.replace("</head>", LEGAL_CSS + "</head>", 1)
+        if "LEGALCSS" not in h:
+            h = h.replace("</head>", LEGAL_CSS.replace("<style>", "<style>/*LEGALCSS*/") + "</head>", 1)
+        if 'class="wrap net-links"' not in h:
+            h = h.replace("</footer>", net + "</footer>", 1)
+        h = _social(h, site, domain, slug)
         f.write_text(h)
     sm = out / "sitemap.xml"
     if sm.exists():
