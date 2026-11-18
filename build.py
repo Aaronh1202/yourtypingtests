@@ -128,6 +128,8 @@ add("average-typing-speed", "📊", "Average Typing Speed", "Average Typing Spee
      ("What is the fastest typing speed?", "The fastest typists can burst well over 200 WPM on short tests, but sustained speeds of 120–150 WPM are already world-class.")])
 
 NAV = ["index", "1-minute-typing-test", "typing-lessons", "typing-game", "typing-test-for-kids", "paragraph-typing-test", "number-typing-test"]
+import typing_more
+typing_more.add_all(add, WPM_TABLE)
 ALL = list(P)
 LESSON_UI = '''<div class="llayout"><div><p class="hint" id="lprog" style="text-align:left;margin:0 0 8px"></p><div id="lessons"></div></div>
 <div class="lpanel"><h2 id="ltitle"></h2><p class="hint" id="ldesc" style="text-align:left;margin:2px 0 0"></p>
@@ -163,7 +165,7 @@ def page(slug, title, desc, body, faq=None, app=False):
 <body>
 <header class="top"><div class="wrap">{LOGO}<nav class="top">{nav}</nav></div></header>
 <main class="wrap">{body}</main>
-<footer><div class="wrap"><div><b>{SITE}</b><br>Free typing tests, lessons and games.<br>Made by {AUTHOR} · © 2026</div><div>{foot}<br><a href="about">About</a><a href="privacy">Privacy</a></div></div></footer>
+<footer><div class="wrap"><div><b>{SITE}</b><br>Free typing tests, lessons and games.<br>Made by {AUTHOR} · © 2026</div><div>{foot}<br><span class="legal-links"><a href="about">About</a><a href="contact">Contact</a><a href="terms">Terms</a><a href="privacy">Privacy</a></span></div></div></footer>
 </body>
 </html>"""
 
@@ -193,7 +195,10 @@ for slug, html in pages.items():
     if PREVIEW:
         html = re.sub(r'href="(%s)"' % "|".join(re.escape(s) for s in pages if s != "index"), r'href="\1.html"', html).replace('href="./"', 'href="index.html"')
     (OUT / f"{slug}.html").write_text(html)
-urls = "".join(f"<url><loc>{DOMAIN}/{'' if s == 'index' else s}</loc></url>" for s in pages if s != "privacy")
+urls = "".join(f"<url><loc>{DOMAIN}/{'' if s == 'index' else s}</loc></url>" for s in pages)
 (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
 (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("built", len(pages), "pages")
+
+import adready
+adready.run(OUT, SITE, DOMAIN, "All typing tests, lessons and games on this site")
