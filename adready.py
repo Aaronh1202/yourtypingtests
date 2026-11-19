@@ -136,6 +136,11 @@ def _social(h, site, domain, slug):
     return h.replace("</head>", "".join(tags) + "</head>", 1) if tags else h
 
 
+ADSENSE_PUB = "ca-pub-2333823498112859"
+ADSENSE_TAG = ('<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='
+               + ADSENSE_PUB + '" crossorigin="anonymous"></script>')
+
+
 LEGAL_CSS = ('<style>.legal-links{text-align:center;padding:14px 0 4px;font-size:.9em;opacity:.85}'
              '.legal-links a{margin:0 8px}.net-links{text-align:center;font-size:.8em;opacity:.7;padding:2px 12px 14px;line-height:1.9}.net-links a{margin:0 6px;white-space:nowrap}.legal h3{margin-top:1.2em;font-size:1.05em}</style>')
 
@@ -183,7 +188,10 @@ def run(out, site, domain, what, extra=None, default_extra="", about_extra="", s
         if 'class="wrap net-links"' not in h:
             h = h.replace("</footer>", net + "</footer>", 1)
         h = _social(h, site, domain, slug)
+        if "adsbygoogle.js" not in h:
+            h = h.replace("</head>", ADSENSE_TAG + "</head>", 1)
         f.write_text(h)
+    (out / "ads.txt").write_text(f"google.com, {ADSENSE_PUB.replace('ca-', '')}, DIRECT, f08c47fec0942fa0\n")
     sm = out / "sitemap.xml"
     if sm.exists():
         s = sm.read_text()
