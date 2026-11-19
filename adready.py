@@ -111,7 +111,7 @@ NETWORK = [("yourstopwatch.com", "Online Stopwatch &amp; Timers"), ("yourspinwhe
            ("yourfreeonlinegames.com", "Free Online Games"), ("yourdevicetest.com", "Device Tests"),
            ("yourqrcodegenerator.com", "QR Code Generator"), ("yourtypingtests.com", "Typing Test")]
 # Only link to sites that are live, so we never show broken links. Add domains here as they go live.
-LIVE = {"yourstopwatch.com", "yourspinwheel.com", "yourimagetools.com"}
+LIVE = {d for d, _ in NETWORK}
 
 
 def _social(h, site, domain, slug):
