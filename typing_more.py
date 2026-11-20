@@ -98,3 +98,80 @@ def add_all(add, WPM_TABLE):
 <li><b>Use a comfortable keyboard.</b> Keys with a clear feel and good spacing reduce mistakes.</li></ol>
 <h2>How fast can you improve?</h2><p>Most people gain 5–10 WPM in the first month of regular practice. Track your progress by taking the test above once a week.</p>""",
         [("Is it worth learning touch typing as an adult?", "Yes. Your speed may drop for a week or two while you switch, but most adults end up much faster than before."), SAVED])
+
+    # ---- more pages (Nov 20) ----
+    MORE = [
+        ("typing-speed-test", "⚡", "Typing Speed Test", "Typing Speed Test – Free 1 Minute WPM & Accuracy Test",
+         "Free typing speed test. Find your words per minute and accuracy in one minute, see a live speed chart and get a free certificate.",
+         "Typing <span>Speed Test</span>", "How fast do you type? Start typing to begin the one-minute test.", {"dur": 60}, None,
+         f"""<h2>How the typing speed test works</h2><p>Type the words shown as fast and accurately as you can. When the timer ends, you'll see your words per minute (WPM), accuracy, raw speed and a chart of your speed during the test.</p>
+<h2>Typing speed chart</h2>{WPM_TABLE}
+<h2>Get a reliable result</h2><p>Take the test three times and use your average. Your first try is often slower while you warm up.</p>""",
+         [("How is typing speed measured?", "In words per minute, where every 5 characters (including spaces) count as one word. Wrong words don't count."), CERT, SAVED]),
+        ("touch-typing-test", "🙌", "Touch Typing Test", "Touch Typing Test – Test Your Speed Without Looking",
+         "Free touch typing test. Check your speed and accuracy typing without looking at the keyboard, and see how touch typing compares with hunt-and-peck.",
+         "Touch <span>Typing Test</span>", "Keep your eyes on the screen and your fingers on the home row.", {"dur": 60}, None,
+         """<h2>What is touch typing?</h2><p>Touch typing means typing without looking at the keyboard, using all ten fingers. Each finger is responsible for its own keys, starting from the home row: <b>A S D F</b> for the left hand and <b>J K L ;</b> for the right. The bumps on F and J help you find the home row by feel.</p>
+<h2>Touch typing vs hunt and peck</h2><p>Hunt-and-peck typists usually top out around 25–40 WPM. Touch typists commonly reach 60–80 WPM and are more accurate, because their eyes stay on the text.</p>
+<h2>Learn touch typing</h2><p>Start with our free <a href="typing-lessons">typing lessons</a>, one row at a time. It feels slow for the first week, then speed builds quickly.</p>""",
+         [("Can I cover my hands for the test?", "Yes. Some people put a cloth over their hands to stop peeking. It's a great way to practice."), CERT, SAVED]),
+        ("typing-practice", "🎯", "Typing Practice", "Typing Practice – Free Online Typing Practice with Instant Feedback",
+         "Free online typing practice. Type real words, get instant feedback on speed and mistakes, and track your progress every day.",
+         "Typing <span>Practice</span>", "Practice daily and watch your speed go up. Pick a length and start typing.", {"dur": 120}, None,
+         """<h2>A simple daily practice routine</h2><ol><li><b>Warm up (2 min):</b> a short test at a relaxed pace, focusing on accuracy.</li><li><b>Drill (5 min):</b> a <a href="typing-lessons">typing lesson</a> on the keys that slow you down.</li><li><b>Push (3 min):</b> a timed test where you try to beat yesterday's score.</li></ol>
+<h2>Track your progress</h2><p>Your best scores and recent results are saved in your browser. Most people gain 5–10 WPM in the first month of 10 minutes a day.</p>""",
+         [("How long should I practice each day?", "10–15 minutes of focused practice is enough. Short daily sessions beat long weekly ones."), SAVED]),
+        ("sentence-typing-test", "📝", "Sentence Typing Test", "Sentence Typing Test – Type Real Sentences (Free WPM Test)",
+         "Free sentence typing test. Type real sentences with capitals and punctuation and measure your WPM and accuracy, just like real-world writing.",
+         "Sentence <span>Typing Test</span>", "Type full sentences with capitals and punctuation.", {"dur": 60, "mode": "sentences", "lockMode": True}, {"mode": False},
+         """<h2>Why type sentences?</h2><p>Random word tests are great for raw speed, but real typing is full sentences. Sentences add capitals, commas and periods, and they're easier to read ahead, so they're a more realistic measure of how you type emails and documents.</p>
+<h2>Tips</h2><ul><li>Read a few words ahead so your fingers never wait.</li><li>Use the opposite hand's Shift key for capitals.</li><li>Don't pause at the end of a sentence; keep your rhythm going.</li></ul>""",
+         [("Is my WPM lower on sentences?", "A little, usually. Capitals and punctuation take extra movement. It's normal to be 5–10 WPM slower than on plain words."), CERT, SAVED]),
+        ("10-key-typing-test", "🔢", "10 Key Typing Test", "10 Key Typing Test – Free Number Pad Speed Test (KPH)",
+         "Free 10-key typing test. Practice typing numbers on the number pad and measure your speed and accuracy for data entry and accounting jobs.",
+         "10 Key <span>Typing Test</span>", "Use your number pad and type the numbers as fast as you can.", {"dur": 180, "mode": "numbers", "lockMode": True}, {"mode": False},
+         """<h2>What is a 10-key test?</h2><p>A 10-key test measures how fast and accurately you type numbers on the numeric keypad. It's common for data entry, accounting, bookkeeping, banking and medical billing jobs. Results are often shown in <b>keystrokes per hour (KPH)</b>.</p>
+<h2>10-key speeds</h2><ul><li><b>Under 6,000 KPH:</b> beginner.</li><li><b>8,000–10,000 KPH:</b> a common job requirement.</li><li><b>12,000+ KPH:</b> fast and experienced.</li></ul><p>To estimate KPH from this test: WPM × 5 × 60.</p>
+<h2>Finger placement</h2><p>Rest your right index finger on 4, middle on 5 (feel for the bump) and ring finger on 6. Your thumb presses 0 and your pinky handles Enter and +.</p>""",
+         [("Can I take it without a number pad?", "Yes, using the number row, but it will be slower. A cheap USB number pad helps a lot if you're training for a job."), SAVED]),
+        ("accuracy-typing-test", "✅", "Accuracy Typing Test", "Typing Accuracy Test – Check How Accurately You Type",
+         "Free typing accuracy test. See your accuracy percentage, error count and net WPM, and learn how to make fewer mistakes when you type.",
+         "Typing <span>Accuracy Test</span>", "Focus on getting every word right, then check your accuracy score.", {"dur": 60}, None,
+         """<h2>What's a good typing accuracy?</h2><ul><li><b>Below 90%:</b> slow down; mistakes are costing you speed.</li><li><b>92–95%:</b> average.</li><li><b>96–98%:</b> good, and what most employers look for.</li><li><b>99%+:</b> excellent.</li></ul>
+<h2>Why accuracy matters more than speed</h2><p>Every mistake costs extra keystrokes to fix, and job tests often subtract errors from your score. Typists who slow down slightly and stay accurate usually end up with a higher net WPM.</p>
+<h2>How to improve accuracy</h2><ul><li>Type at about 80% of your top speed for a week.</li><li>Watch the screen, not your hands.</li><li>Notice which keys you miss most and drill them in the <a href="typing-lessons">lessons</a>.</li></ul>""",
+         [("How is accuracy calculated?", "Correct characters divided by total characters typed, as a percentage."), CERT, SAVED]),
+        ("typing-test-for-students", "🎓", "Typing Test for Students", "Typing Test for Students – Free WPM Test for School",
+         "Free typing test for students. Check your WPM and accuracy, practice for school typing assignments and print a certificate for your teacher.",
+         "Typing Test <span>for Students</span>", "Take the test, then print your certificate to show your teacher.", {"dur": 60}, None,
+         """<h2>Typing speeds by grade (rough guide)</h2><ul><li><b>Grades 3–5:</b> 10–25 WPM.</li><li><b>Grades 6–8:</b> 20–35 WPM.</li><li><b>High school:</b> 30–45 WPM.</li><li><b>College:</b> 40+ WPM makes essays and notes much faster.</li></ul>
+<h2>Why typing matters in school</h2><p>Most homework, tests and essays are typed now. Faster typing means less time spent on assignments and more focus on what you're writing.</p>
+<h2>For teachers</h2><p>No sign-up is needed, results stay on each student's device, and the certificate is free to print. Younger students can use the <a href="typing-test-for-kids">kids typing test</a>.</p>""",
+         [("Is it free for classrooms?", "Yes, it's completely free with no accounts, so it works on school Chromebooks right away."), CERT, SAVED]),
+        ("typing-test-for-programmers", "💻", "Typing Test for Programmers", "Typing Test for Programmers – Numbers, Symbols & Punctuation",
+         "Free typing test for programmers. Practice punctuation, numbers and capitals and measure your WPM and accuracy on a harder mix of keys.",
+         "Typing Test <span>for Programmers</span>", "A harder mix with numbers and punctuation. Coders use these keys all day.", {"dur": 60, "mode": "words", "punc": True, "nums": True, "lockMode": True}, {"mode": False},
+         """<h2>Why programmers should practice symbols</h2><p>Code is full of brackets, semicolons, quotes, numbers and capitals. Typing them without looking saves time and keeps you focused on the problem instead of the keyboard.</p>
+<h2>Tips</h2><ul><li>Learn which finger owns each symbol: the right pinky handles ; ' / [ ] and Enter.</li><li>Use the opposite Shift key to avoid twisting your hand.</li><li>Practice the number row. Many developers reach for it with the wrong finger.</li></ul>
+<h2>Does typing speed matter for coding?</h2><p>Thinking is the slow part of programming, but fast, accurate typing removes friction, especially when writing tests, docs and messages.</p>""",
+         [("What WPM do programmers type?", "Many developers type 50–80 WPM on plain text. Expect lower scores on symbol-heavy tests."), CERT, SAVED]),
+        ("cpm-typing-test", "🔤", "CPM Typing Test", "CPM Typing Test – Characters Per Minute Speed Test",
+         "Free characters per minute (CPM) typing test. Measure your typing speed in CPM and WPM and see how they convert.",
+         "CPM <span>Typing Test</span>", "Measure your speed in characters per minute. Your WPM × 5 = CPM.", {"dur": 60}, None,
+         """<h2>What is CPM?</h2><p>CPM stands for <b>characters per minute</b>. It counts every letter, number, space and punctuation mark you type. Some countries and employers use CPM (or keystrokes per minute) instead of WPM.</p>
+<h2>CPM to WPM</h2><p>A standard word is 5 characters, so <b>WPM = CPM ÷ 5</b>. 200 CPM = 40 WPM, 300 CPM = 60 WPM and 400 CPM = 80 WPM.</p>
+<h2>What's a good CPM?</h2><p>About 200 CPM is average, 300 CPM is good for most office jobs and 400+ CPM is fast.</p>""",
+         [("Where do I see my CPM?", "Multiply the WPM shown after the test by 5. Raw WPM × 5 gives your raw CPM, including mistakes."), CERT, SAVED]),
+        ("home-row-keys", "🏠", "Home Row Keys", "Home Row Keys – Learn the Home Row & Test Your Typing",
+         "Learn the home row keys (ASDF JKL;), where each finger goes, and why the home row is the key to touch typing. Then test your speed.",
+         "Home Row <span>Keys</span>", "Put your fingers on A S D F and J K L ; then try the test.", {"dur": 60, "mode": "kids", "lockMode": True}, {"mode": False},
+         """<h2>What are the home row keys?</h2><p>The home row is the middle row of letters on the keyboard. In touch typing, your fingers rest there between keystrokes:</p><ul><li><b>Left hand:</b> pinky on A, ring on S, middle on D, index on F.</li><li><b>Right hand:</b> index on J, middle on K, ring on L, pinky on ;.</li><li><b>Thumbs:</b> on the spacebar.</li></ul>
+<h2>Why do F and J have bumps?</h2><p>The small ridges on F and J let you find the home row by feel, so you never have to look down.</p>
+<h2>Next steps</h2><p>Once the home row feels natural, move on to the top and bottom rows in our free <a href="typing-lessons">typing lessons</a>.</p>""",
+         [("Why is it called the home row?", "Because your fingers return 'home' to it after every key you press."), SAVED]),
+    ]
+    for slug, emo, name, title, desc, h1, sub, cfg, ui, content, faq in MORE:
+        if ui is None:
+            add(slug, emo, name, title, desc, h1, sub, "test", cfg, content, faq)
+        else:
+            add(slug, emo, name, title, desc, h1, sub, "test", cfg, content, faq, ui=ui)
