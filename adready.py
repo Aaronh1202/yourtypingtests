@@ -201,3 +201,66 @@ def run(out, site, domain, what, extra=None, default_extra="", about_extra="", s
                 s = s.replace("</urlset>", f"<url>{loc}</url></urlset>")
         sm.write_text(s)
     print(f"adready: legal pages + content added to {added} pages")
+    ai_ready(out, site, domain, what)
+
+
+# ---------------- AI search readiness (ChatGPT, Perplexity, Claude, Gemini, Copilot) ----------------
+AI_BOTS = ["OAI-SearchBot", "ChatGPT-User", "GPTBot", "PerplexityBot", "Perplexity-User", "Claude-SearchBot",
+           "Claude-User", "ClaudeBot", "Google-Extended", "Applebot-Extended", "Bingbot", "Googlebot"]
+
+
+def _txt(x):
+    x = re.sub(r"<[^>]+>", " ", x)
+    return re.sub(r"\s+", " ", _h.unescape(x)).strip()
+
+
+def _faq_pairs(h):
+    m = re.search(r"<h2[^>]*>\s*(Frequently asked questions|FAQ)[^<]*</h2>(.*?)(?=<h2|</section>|</main>)", h, re.S | re.I)
+    if not m:
+        return []
+    body = m.group(2)
+    pairs = re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", body, re.S)
+    if not pairs:
+        pairs = re.findall(r"<h3[^>]*>(.*?)</h3>\s*(.*?)(?=<h3|$)", body, re.S)
+    return [(_txt(q), _txt(a)) for q, a in pairs if _txt(q) and _txt(a)]
+
+
+def ai_ready(out, site, domain, what):
+    import json
+    n_faq = 0
+    pages = []
+    for f in sorted(out.glob("*.html")):
+        h = f.read_text()
+        if '"FAQPage"' not in h:
+            pairs = _faq_pairs(h)
+            if pairs:
+                data = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+                    {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in pairs]}
+                tag = '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+                h = h.replace("</head>", tag + "</head>", 1)
+                f.write_text(h)
+                n_faq += 1
+        if 'name="robots" content="noindex' in h:
+            continue
+        t = re.search(r"<title>(.*?)</title>", h, re.S)
+        d = re.search(r'<meta name="description" content="([^"]*)"', h)
+        slug = "" if f.stem == "index" else f.stem
+        pages.append((slug, _txt(t.group(1)).split(" | ")[0] if t else f.stem, _h.unescape(d.group(1)) if d else ""))
+    # robots.txt: explicitly welcome search + AI answer crawlers
+    rob = "User-agent: *\nAllow: /\n\n# AI search and answer engines are welcome\n"
+    rob += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS)
+    rob += f"Sitemap: {domain}/sitemap.xml\n"
+    (out / "robots.txt").write_text(rob)
+    # llms.txt: plain-language map of the site for AI assistants
+    legal = {"about", "contact", "privacy", "terms"}
+    main = [p for p in pages if p[0] not in legal]
+    home = next((p for p in pages if p[0] == ""), None)
+    lines = [f"# {site}", "", f"> {home[2] if home and home[2] else what}", "",
+             f"Everything on {domain} is free and runs in the browser, with no sign-up or download.",
+             "Pages are free to use and to link to.", "", "## Tools and pages", ""]
+    for slug, title, desc in main:
+        url = f"{domain}/{slug}" if slug else f"{domain}/"
+        lines.append(f"- [{title}]({url})" + (f": {desc}" if desc else ""))
+    lines += ["", "## About", ""] + [f"- [{t}]({domain}/{s})" for s, t, _ in pages if s in legal]
+    (out / "llms.txt").write_text("\n".join(lines) + "\n")
+    print(f"ai_ready: FAQ schema added to {n_faq} pages, robots.txt + llms.txt ({len(main)} pages)")
